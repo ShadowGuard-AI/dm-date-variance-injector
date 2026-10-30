@@ -84,12 +84,19 @@ def inject_date_variance(date_obj, range_days, max_range):
         ValueError: If the range_days exceeds max_range in absolute value.
     """
 
+    if max_range < 0:
+        raise ValueError("The maximum range cannot be negative.")
+
     if abs(range_days) > max_range:
         raise ValueError(
             f"The specified range ({range_days}) exceeds the maximum allowed range ({max_range})."
         )
 
-    variance = random.randint(-abs(range_days), abs(range_days))  # Ensure both past and future dates are possible
+    # The sign of range_days carries no meaning here: the help text once
+    # implied a negative range reaches only into the past, but the draw has
+    # always been symmetric, so abs() is applied and both directions stay
+    # possible whatever sign the caller passed.
+    variance = random.randint(-abs(range_days), abs(range_days))
 
     new_date = date_obj + datetime.timedelta(days=variance)
     return new_date

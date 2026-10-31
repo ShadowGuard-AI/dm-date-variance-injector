@@ -11,9 +11,12 @@ Introduces a random variance within a specified range to date values, preserving
 
 ## Parameters
 - `-h`: Show help message and exit
-- `-r`: No description provided
+- `-r`: The range of days to vary the date by. A positive value draws only into the future, from 1 to the range. A negative value draws only into the past, from the range to -1.
 - `-m`: No description provided
 - `-f`: No description provided
+- `-s`: Optional seed for the shared offset draw, so a run can be reproduced.
+
+One run can take one or more dates. All dates in a single run share one drawn offset, so their order is preserved: a later date in the input stays later in the output. Dates masked in separate runs do not share an offset. With --seed, the shared offset is the seeded draw, so the same seed and range reproduce the same shift for the whole set.
 
 ## License
 Copyright (c) ShadowStrikeHQ

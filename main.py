@@ -20,13 +20,20 @@ def setup_argparse():
                     "preserving temporal relationships while obscuring exact dates."
     )
 
-    parser.add_argument("date", type=str, help="The date to modify (YYYY-MM-DD).")
+    parser.add_argument("date", type=str, nargs="+", help="One or more dates to modify (YYYY-MM-DD). All dates in one run share a single drawn offset, so their order is preserved.")
     parser.add_argument(
         "-r",
         "--range",
         type=int,
         default=30,
-        help="The range of days to vary the date by (default: 30).  A negative value allows dates in the past.",
+        help="The range of days to vary the date by (default: 30). A positive value draws only into the future, from 1 to the range. A negative value draws only into the past, from the range to -1.",
+    )
+    parser.add_argument(
+        "-s",
+        "--seed",
+        type=int,
+        default=None,
+        help="Optional seed for the shared offset draw, so a run can be reproduced.",
     )
     parser.add_argument(
         "-m",
@@ -68,7 +75,7 @@ def validate_date(date_str):
         )
 
 
-def inject_date_variance(date_obj, range_days, max_range):
+def inject_date_variance(date_obj, range_days, max_range, offset=None):
     """
     Injects a random variance within the specified range to a date.
 
@@ -92,14 +99,26 @@ def inject_date_variance(date_obj, range_days, max_range):
             f"The specified range ({range_days}) exceeds the maximum allowed range ({max_range})."
         )
 
-    # The sign of range_days carries no meaning here: the help text once
-    # implied a negative range reaches only into the past, but the draw has
-    # always been symmetric, so abs() is applied and both directions stay
-    # possible whatever sign the caller passed.
-    variance = random.randint(-abs(range_days), abs(range_days))
+    variance = offset if offset is not None else draw_variance(range_days, max_range)
 
     new_date = date_obj + datetime.timedelta(days=variance)
     return new_date
+
+
+def draw_variance(range_days, max_range):
+    """Draw one offset. A positive range draws only into the future and a
+    negative range only into the past. Zero range draws zero."""
+    if max_range < 0:
+        raise ValueError("The maximum range cannot be negative.")
+    if abs(range_days) > max_range:
+        raise ValueError(
+            f"The specified range ({range_days}) exceeds the maximum allowed range ({max_range})."
+        )
+    if range_days > 0:
+        return random.randint(1, range_days)
+    if range_days < 0:
+        return random.randint(range_days, -1)
+    return 0
 
 
 def main():
@@ -110,16 +129,16 @@ def main():
     args = parser.parse_args()
 
     try:
-        # Validate and parse the input date
-        date_obj = validate_date(args.date)
-
-        # Inject date variance
-        modified_date = inject_date_variance(date_obj, args.range, args.max_range)
-
-        # Format the output date
-        formatted_date = modified_date.strftime(args.format)
-
-        print(formatted_date)
+        if args.seed is not None:
+            random.seed(args.seed)
+        # One shared offset for every date in this run, so the order of the
+        # dates is the order of the originals. With a seed, this shared
+        # offset is the seeded draw.
+        shared_offset = draw_variance(args.range, args.max_range)
+        for date_str in args.date:
+            date_obj = validate_date(date_str)
+            modified_date = inject_date_variance(date_obj, args.range, args.max_range, offset=shared_offset)
+            print(modified_date.strftime(args.format))
 
     except ValueError as e:
         logging.error(f"Error: {e}")

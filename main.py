@@ -67,6 +67,10 @@ def validate_date(date_str):
         ValueError: If the date string is not in the correct format.
     """
     try:
+        # The input format is fixed here on purpose: the --format option is
+        # output only, whatever a caller expects it to mean. strptime is
+        # also more forgiving than the error text below: a date like
+        # 2023-1-5 parses fine even though it is not zero padded.
         date_obj = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
         return date_obj
     except ValueError:
@@ -99,6 +103,11 @@ def inject_date_variance(date_obj, range_days, max_range, offset=None):
             f"The specified range ({range_days}) exceeds the maximum allowed range ({max_range})."
         )
 
+    # When main supplies the shared offset, the two range checks above run
+    # a second time for nothing: draw_variance already enforced them, and
+    # max_range plays no part in applying an offset that already exists.
+    # The duplication keeps this function safe to call on its own, which is
+    # the only reason I leave it standing.
     variance = offset if offset is not None else draw_variance(range_days, max_range)
 
     new_date = date_obj + datetime.timedelta(days=variance)
@@ -134,6 +143,14 @@ def main():
         # One shared offset for every date in this run, so the order of the
         # dates is the order of the originals. With a seed, this shared
         # offset is the seeded draw.
+        # A shared offset preserves more than order: the gaps between the
+        # dates come out exactly as they went in, because every date moves
+        # by the same number of days. Anyone who knows one true date in the
+        # run can work the offset out and recover all of them, which is the
+        # price of keeping the gaps, and worth stating where the draw happens.
+        # The draw also happens before any date is validated, and the loop
+        # prints as it goes: a bad date halfway through leaves the earlier
+        # shifted dates already printed before the run exits 1.
         shared_offset = draw_variance(args.range, args.max_range)
         for date_str in args.date:
             date_obj = validate_date(date_str)

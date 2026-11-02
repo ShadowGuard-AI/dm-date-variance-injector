@@ -3,164 +3,135 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dm Date Variance Injector: what it is, how it runs, where it stops</title>
-<meta name="description" content="Dm Date Variance Injector is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.">
+<title>dm-date-variance-injector: Wollemi Pine Secret Canyon</title>
 <style>
-:root {
-  --bg: #0c1016; --panel: #141a24; --ink: #e8ecf0;
-  --mut: #1b2330;
-  --acc: #d8844a; --acc2: #5eb2a8;
-  --line: #141a24;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font-family: 'Book Antiqua', Georgia, serif; line-height: 1.55; }
-code, pre, .mono { font-family: 'Andale Mono', monospace; }
-a { color: var(--acc2); }
-.hero { padding: 3rem 6vw 1rem; }
-.hero img.banner { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; }
-.logo { width: 92px; height: 92px; border-radius: 18px;
-  border: 1px solid var(--line); }
-h1 { font-size: 2.4rem; margin: 0.4em 0 0.1em; }
-h2 { border-bottom: 2px solid var(--acc); padding-bottom: 0.2em;
-  margin-top: 2em; }
-.lede { font-size: 1.15rem; max-width: 62ch; }
-main { padding: 0 6vw 3rem; max-width: 1180px; margin: 0 auto; }
-.grid { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.card { background: var(--panel); border: 1px solid var(--line);
-  border-radius: 12px; padding: 1rem 1.2rem; }
-.card.pop { animation: rise 0.7s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; } }
-pre.code { background: #101014; color: #e8e6df; padding: 1rem 1.2rem;
-  border-radius: 12px; overflow-x: auto; font-size: 0.86rem;
-  border-left: 5px solid var(--acc); }
-table { border-collapse: collapse; width: 100%; }
-td, th { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem;
-  text-align: left; }
-.shots { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.shots img { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; background: #f4f1e8; }
-footer { padding: 2rem 6vw; border-top: 1px solid var(--line);
-  color: var(--mut); }
-.rail { display: flex; gap: 1.2rem; align-items: flex-start; }
-.rail nav { position: sticky; top: 1rem; min-width: 180px; }
-@media (max-width: 760px) { .rail { flex-direction: column; }
-  .rail nav { position: static; } }
-@media (prefers-reduced-motion: reduce) {
-  .card.pop { animation: none; } * { scroll-behavior: auto; } }
+@font-face { font-family: Cardo; src: url(fonts/Cardo.ttf); }
+@font-face { font-family: Barlow; src: url(fonts/Barlow.ttf); }
+body { background: #f7efdb; color: #54402a; font-family: Barlow, sans-serif; margin: 0; }
+header, section { max-width: 880px; margin: 0 auto; padding: 28px 24px; }
+h1, h2 { font-family: Cardo, serif; color: #2e2113; }
+h1 { font-size: 2.3rem; }
+.side { background: #e9dfc8; border-left: 6px solid #9e4a22; padding: 14px 18px; }
+code, pre { font-family: monospace; }
+img { max-width: 100%; }
+.pod { color: #9e4a22; }
+button.cone { background: #5c452c; color: #f7efdb; border: 3px solid #261b10; border-radius: 46% 46% 50% 50%; padding: 14px 22px; font-family: Cardo, serif; font-size: 1.05rem; cursor: pointer; }
+button.cone:hover { background: #4a3421; }
+button.cone:active { background: #3e2c1a; }
+button.cone:focus-visible { outline: 4px double #d9a13b; outline-offset: 3px; }
+.card { background: #efe6cf; border: 1px solid #9e4a22; padding: 16px 20px; margin: 14px 0; }
+.broken { position: relative; }
+.broken::after { content: ""; position: absolute; top: 8px; right: 12px; width: 22px; height: 22px; border: 3px solid #9e4a22; border-right-color: transparent; border-radius: 50%; }
+.bigwarn { font-size: 1.5rem; font-family: Cardo, serif; color: #7a3418; }
+label { font-family: Cardo, serif; }
+pre.live { background: #efe6cf; padding: 18px; overflow-x: auto; white-space: pre-wrap; }
+footer { max-width: 880px; margin: 0 auto; padding: 24px; }
 </style>
 </head>
-<body class="layout-split">
-<!-- This page exists for dm-date-variance-injector alone: the layout (split-hero),
-     the colors, and the type were picked for this project, not
-     shared with the other project pages. The code block below is
-     copied from the file it names, line for line. If it looks
-     plain, that is because the project is plain, and I would
-     rather the page match the project than dress it up. The one
-     thing I will not do here is oversell: what this project does
-     not do is stated on the page, not hidden from it. -->
-<header class="hero">
-  <img class="logo" src="assets/logo.png" alt="Dm Date Variance Injector logo">
-  <img class="banner" src="assets/banner.png" alt="">
-  <h1>Dm Date Variance Injector</h1>
-  <p class="mono"><a href="https://github.com/ShadowGuard-AI/dm-date-variance-injector">github.com/ShadowGuard-AI/dm-date-variance-injector</a></p>
+<body>
+<header>
+<img src="intro-banner.png" alt="Shut Wollemi pine cone in side light in a secret canyon, no lettering">
+<h1>dm-date-variance-injector: Wollemi Pine Secret Canyon</h1>
+<p class="side">Entry status, printed plainly: the theme entry for this repository is partial. It supplied theme, world, fit, palette, font, and story only. Every direction it did not supply was authored from that surviving material and is flagged as authored on this page. A formal completion of the entry is still owed. No date belonging to anybody appears anywhere on this site.</p>
+<img src="logo.png" alt="One shut Wollemi pine cone above the repository name" width="220">
 </header>
 
-<main>
-  <section class="rail">
-    <nav aria-label="on this page">
-      <p class="mono"><a href="#run">Run it</a><br>
-      <a href="#files">The files</a><br>
-      <a href="#sheets">The sheets</a><br>
-      <a href="https://github.com/ShadowGuard-AI/dm-date-variance-injector">The repo</a></p>
-    </nav>
-    <div>
-      <p class="lede">Dm Date Variance Injector is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.</p>
-      <div class="grid">
-        <div class="card pop"><h3>What it is</h3>
-          <p>Dm Date Variance Injector: 5 files, 161 counted
-          lines across Python 139, Markdown 19, Text 3. One job, done in the
-          open, in files you can read.</p></div>
-        <div class="card pop"><h3>The biggest piece</h3>
-          <p><code>main.py</code> carries the most
-          lines. If the project grows, that file is where the growth
-          lands first, for better or worse.</p></div>
-        <div class="card pop"><h3>The honest gap</h3>
-          <p>No test files yet. That is the honest gap, and the roadmap in the visuals folder says what the first one should cover.</p></div>
-      </div>
-      <section id="run">
-        <h2>Run it</h2>
-        <p>The repo README has the exact commands for this one. The
-        shape is the shape for most of my projects: clone it, read the
-        top file first so you know what will happen, then run it on
-        something you do not mind breaking.</p>
-        <p class="mono">$ git clone https://github.com/ShadowGuard-AI/dm-date-variance-injector.git<br>$ cd dm-date-variance-injector</p>
-      </section>
-      
-  <section aria-label="real code">
-    <h2>The code, as it sits in the repo</h2>
-    <p>From <code>main.py</code>, line 9 on. I did
-    not tidy it for the page. What you see is what the file has.</p>
-    <pre class="code"><code>
+<section>
+<h2><span class="pod">&#10022;</span> Clearing one: what the code does</h2>
+<p>Dates get nudged by a chance amount inside a chosen span. Sequence survives the nudge. True days stay hidden. Two situations are named: birthdays, and days when service began.</p>
+<p>Introduces a random variance within a specified range to date values, preserving the temporal relationships while obscuring exact dates. Useful for masking date of birth or service initiation dates. - Focused on Tools designed to generate or mask sensitive data with realistic-looking but meaningless values</p>
+<p>Kinship line, as housed: this tool sits with tools designed to generate or mask sensitive data with realistic-looking but meaningless values.</p>
+<img src="banner.png" alt="Secret canyon with a herbarium specimen label tied to the nearest trunk">
+</section>
 
-def setup_argparse():
-    &quot;&quot;&quot;
-    Sets up the argument parser for the command-line interface.
+<section>
+<h2><span class="pod">&#10022;</span> Clearing two: getting a copy, plus a single admitted fix</h2>
+<p>Visitors copy this direction:</p>
+<p><code>git clone https://github.com/ShadowGuard-AI/dm-date-variance-injector</code></p>
+<p class="side">Site fix, labelled as a fix: the housed address points toward an earlier organisational banner, ShadowStrikeHQ. Anyone obeying it literally knocks on a stranger's door. The line above is the corrected replacement, marked as a correction here and never dressed up as founding wording. The housed line stands verbatim in the record block at the foot of this page.</p>
+</section>
 
-    Returns:
-        argparse.ArgumentParser: The argument parser object.
-    &quot;&quot;&quot;
-    parser = argparse.ArgumentParser(
-        description=&quot;Introduces a random variance within a specified range to date values, &quot;
-                    &quot;preserving temporal relationships while obscuring exact dates.&quot;
-    )
+<section>
+<h2><span class="pod">&#10022;</span> Clearing three: invocation outline</h2>
+<p><code>./dm-date-variance-injector [params]</code></p>
+<p>The founding material supplies neither a demonstrated call nor any input filename, so those tag lines are left empty deliberately instead of inventing a tidy illustration. No input form, no date format, and no output destination is stated anywhere; those are absences.</p>
+<p>Tag line, demonstrated call: </p>
+<p>Tag line, input filename: </p>
+</section>
 
-    parser.add_argument(&quot;date&quot;, type=str, help=&quot;The date to modify (YYYY-MM-DD).&quot;)
-    parser.add_argument(
-        &quot;-r&quot;,
-        &quot;--range&quot;,
-        type=int,
-        default=30,
-        help=&quot;The range of days to vary the date by (default: 30).  A negative value allows dates in the past.&quot;,
-    )</code></pre>
-  </section>
-      <section id="files">
-        <h2>The files that matter</h2>
-        <table><tr><th>File</th><th>Lines</th></tr>
-        <tr><td><code>main.py</code></td><td>139</td></tr>
-        <tr><td><code>README.md</code></td><td>19</td></tr>
-        <tr><td><code>requirements.txt</code></td><td>3</td></tr>
-        <tr><td><code>banner.png</code></td><td>0</td></tr>
-        <tr><td><code>logo.png</code></td><td>0</td></tr>
-        </table>
-        <p>Names doing the work: <span class="mono">setup_argparse, validate_date, inject_date_variance, main</span>.</p>
-      </section>
-      <section id="sheets">
-        <h2>Drawn by hand</h2>
-        <p>I sketch my projects on notebook paper so I have to
-        understand them well enough to draw them. The full set,
-        with the counts and how they were counted, is the
-        <a href="https://github.com/ShadowGuard-AI/dm-date-variance-injector/tree/main/dm-date-variance-injector-Visuals">dm-date-variance-injector-Visuals</a>
-        folder in the repo. Nothing is drawn over the binder holes.
-        That is a rule, not a style.</p>
-        <div class="shots">
-          <img src="assets/architecture.png" alt="Hand drawn architecture sheet for Dm Date Variance Injector">
-          <img src="assets/flowchart.png" alt="Hand drawn flowchart sheet for Dm Date Variance Injector">
-          <img src="assets/product-map.png" alt="Hand drawn product map sheet for Dm Date Variance Injector">
-        </div>
-      </section>
-    </div>
-  </section>
-</main>
+<section>
+<h2><span class="pod">&#10022;</span> Clearing four: switches, in housed sequence</h2>
+<ul>
+<li><code>-h</code>: Show help message and exit</li>
+<li><code>-r</code>: The range of days to vary the date by. A positive value draws only into the future, from 1 to the range. A negative value draws only into the past, from the range to -1.</li>
+<li><code>-m</code>: No description provided</li>
+<li><code>-f</code>: No description provided</li>
+<li><code>-s</code>: Optional seed for the shared offset draw, so a run can be reproduced.</li>
+</ul>
+<h3>Two Flags, Descriptions Missing</h3>
+<p>The -m and -f switches are repeated here as blanks, exactly as housed. Guessing at either switch earns a turned back at the gate.</p>
+<p><button class="cone" type="button">Shift the Dates</button> <label for="range">Range in Days</label> <input id="range" name="range" type="text" size="8"></p>
+</section>
+
+<section>
+<h2><span class="pod">&#10022;</span> Clearing five: the single shared displacement</h2>
+<h3>One Offset, Whole Run</h3>
+<p>One run can take one or more dates. All dates in a single run share one drawn offset, so their order is preserved: a later date in the input stays later in the output. Dates masked in separate runs do not share an offset. With --seed, the shared offset is the seeded draw, so the same seed and range reproduce the same shift for the whole set.</p>
+<p>Seed spelling, printed plainly: the seed switch is listed as -s in the Parameters list and spelled --seed in the shared offset paragraph. The source never reconciles the two spellings, so both are carried exactly as printed in their own places.</p>
+<div class="card broken">
+<p class="bigwarn">Separate runs warning: dates masked in separate runs do not share an offset. Split the work across distinct invocations and nothing carries across; each fresh start draws afresh.</p>
+</div>
+<img src="scene.svg" alt="Three band scene of the canyon, authored from the surviving story beat">
+</section>
+
+<section>
+<h2><span class="pod">&#10022;</span> Clearing six: two permission facts, on separate tags</h2>
+<div class="card">
+<p>Tag A: a root MIT licence sits alongside the code, years 2025 through 2026. Its holder is sketched by outline only: two words forming a pen name, next a bracketed shortening that leaves a given name as one letter, last a handle sitting inside round brackets. The holder line itself is not reproduced here.</p>
+</div>
+<div class="card">
+<p>Tag B, stamped as a site fix: the housed closing line, Copyright (c) ShadowStrikeHQ, is rewritten on this site using today's hyphenated organisational spelling as Copyright (c) ShadowGuard-AI, replacing the earlier banner spelling the published line used. That is a correction made on the website, not founding wording.</p>
+</div>
+</section>
+
+<section>
+<h2><span class="pod">&#10022;</span> Clearing seven: the warden's gate</h2>
+<p>Search arrivals halt at a gate book. Each arrival writes a purpose: span, direction, seed, sequence, birthdays, service days. Only then does the warden escort them, singly, toward one stand.</p>
+<p>Chasing direction? Walk to the span stand, where future only and past only is spelled beside a sketch showing a track forking a single time, never looping homeward. A positive value draws only into the future, from 1 to the range, and a negative value draws only into the past, from the range to -1.</p>
+<p>Chasing repeatability across runs? Walk to the seed stand, where -s and its paragraph spelling --seed both stand as printed, and the same seed and range reproduce the same shift for the whole set.</p>
+<p>Chasing origins? Stay at the gate book itself: earlier banner, superseded heading, fix owned openly, as in clearing two and clearing six.</p>
+<p>Pupils, office clerks hiding service days, scholars rebuilding chronologies: identical courtesy awaits everybody, one stand, lingering allowed, nothing surplus smuggled along, nothing pertinent skipped, the gate swinging shut solely upon a visitor's nod. Dust ground from loam, low angled sunshine, a ruled book, stubby pencils: those textures edge this page, grounding every factual stand inside a genuine gorge instead of a weightless help file.</p>
+</section>
+
+<section>
+<h2>The canyon record, housed verbatim</h2>
+<p>The live README, carried whole and untouched, identity faults included:</p>
+<pre class="live">![Banner](banner.png)
+
+# dm-date-variance-injector
+Introduces a random variance within a specified range to date values, preserving the temporal relationships while obscuring exact dates. Useful for masking date of birth or service initiation dates. - Focused on Tools designed to generate or mask sensitive data with realistic-looking but meaningless values
+
+## Install
+`git clone https://github.com/ShadowStrikeHQ/dm-date-variance-injector`
+
+## Usage
+`./dm-date-variance-injector [params]`
+
+## Parameters
+- `-h`: Show help message and exit
+- `-r`: The range of days to vary the date by. A positive value draws only into the future, from 1 to the range. A negative value draws only into the past, from the range to -1.
+- `-m`: No description provided
+- `-f`: No description provided
+- `-s`: Optional seed for the shared offset draw, so a run can be reproduced.
+
+One run can take one or more dates. All dates in a single run share one drawn offset, so their order is preserved: a later date in the input stays later in the output. Dates masked in separate runs do not share an offset. With --seed, the shared offset is the seeded draw, so the same seed and range reproduce the same shift for the whole set.
+
+## License
+Copyright (c) ShadowStrikeHQ</pre>
+</section>
+
 <footer>
-  <p>Dm Date Variance Injector is one of my projects. This page was written
-  from the repo itself on 2026-10-30: the counts are the
-  repo's counts, the code is the repo's code, and the gaps are the
-  repo's gaps.</p>
+<p>Fonts: Cardo, the embedded face, and Barlow, the reading face, both under the SIL Open Font License 1.1, licence texts shipped beside the fonts. Lettering follows Cardo in herbarium specimen label manner; no lettering reference exists for this repository, by the entry's own decision. The walk closes on the cone left shut in the clearing, the gorge in full leaf, the path home open, and the location still unpublished.</p>
 </footer>
 </body>
 </html>

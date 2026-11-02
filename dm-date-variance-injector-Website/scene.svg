@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-label="Wollemi Pine Secret Canyon scene in three bands">
+  <rect x="0" y="0" width="1200" height="360" fill="#f7efdb"/>
+  <!-- Distant band: canyon walls and trunks stay fixed, light travels -->
+  <g>
+    <rect x="0" y="0" width="1200" height="120" fill="#9e4a22"/>
+    <polygon points="0,0 330,0 280,120 0,120" fill="#ba6634"/>
+    <polygon points="1200,0 870,0 920,120 1200,120" fill="#ba6634"/>
+    <polygon points="470,0 730,0 700,120 500,120" fill="#f0d6a0"/>
+    <rect x="380" y="26" width="14" height="94" fill="#261b10"/>
+    <rect x="560" y="18" width="11" height="102" fill="#261b10"/>
+    <rect x="806" y="26" width="14" height="94" fill="#261b10"/>
+    <polygon points="0,120 1200,96 1200,120" fill="#d9a13b" opacity="0.55">
+      <animate attributeName="points" dur="14s" repeatCount="indefinite"
+        values="0,120 1200,96 1200,120; 0,104 1200,120 1200,120; 0,120 1200,96 1200,120"/>
+    </polygon>
+  </g>
+  <!-- Central band: ring and pods stay put, a hand places one pod -->
+  <g>
+    <rect x="0" y="120" width="1200" height="120" fill="#3e2c1a"/>
+    <ellipse cx="300" cy="196" rx="120" ry="20" fill="none" stroke="#9e4a22" stroke-width="3" stroke-dasharray="4 10"/>
+    <g fill="#f7efdb">
+      <circle cx="196" cy="188" r="5"/><circle cx="240" cy="178" r="5"/><circle cx="300" cy="176" r="5"/>
+      <circle cx="360" cy="178" r="5"/><circle cx="404" cy="188" r="5"/><circle cx="360" cy="214" r="5"/>
+      <circle cx="300" cy="216" r="5"/><circle cx="240" cy="214" r="5"/>
+    </g>
+    <ellipse cx="620" cy="200" rx="17" ry="8" fill="#7a3418"/>
+    <ellipse cx="700" cy="214" rx="13" ry="6" fill="#7a3418"/>
+    <ellipse cx="880" cy="206" rx="15" ry="7" fill="#7a3418"/>
+    <g>
+      <animateTransform attributeName="transform" type="translate" dur="9s" repeatCount="indefinite"
+        values="260 0; 0 0; 0 0; 260 0" keyTimes="0; 0.35; 0.7; 1"/>
+      <path d="M1180 150 L1110 158 L1078 176 L1112 190 L1180 186 Z" fill="#f7efdb" stroke="#261b10" stroke-width="3"/>
+      <ellipse cx="1062" cy="200" rx="15" ry="7" fill="#d9a13b" stroke="#261b10" stroke-width="2"/>
+    </g>
+    <ellipse cx="1047" cy="200" rx="15" ry="7" fill="#7a3418" opacity="0">
+      <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0; 0; 1; 1" keyTimes="0; 0.34; 0.4; 1"/>
+    </ellipse>
+  </g>
+  <!-- Closest band: pruning shears, squeezed shut once by hand on a dead twig, then laid on loam -->
+  <g>
+    <rect x="0" y="240" width="1200" height="120" fill="#5c452c"/>
+    <line x1="330" y1="316" x2="520" y2="300" stroke="#261b10" stroke-width="6"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" dur="9s" repeatCount="indefinite"
+        values="0 560 306; 0 560 306; -4 560 306; 0 560 306; 0 560 306" keyTimes="0; 0.2; 0.3; 0.42; 1"/>
+      <polygon points="560,300 690,292 692,302 562,312" fill="#9e4a22"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" dur="9s" repeatCount="indefinite"
+          values="10 560 312; 10 560 312; 0 560 312; 10 560 312; 10 560 312" keyTimes="0; 0.2; 0.3; 0.42; 1"/>
+        <polygon points="560,314 688,326 686,336 562,322" fill="#7a3418"/>
+      </g>
+      <circle cx="556" cy="308" r="7" fill="#261b10"/>
+      <path d="M556 302 L486 282 M556 316 L490 338" stroke="#3e2c1a" stroke-width="9" fill="none"/>
+    </g>
+    <text x="36" y="282" font-family="Georgia, serif" font-size="19" fill="#f7efdb">bands authored from the surviving story beat, partial entry</text>
+  </g>
+</svg>
